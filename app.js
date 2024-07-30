@@ -1,5 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
 const { db_connect } = require("./database/dbHelper");
 const { User } = require("./models/UserModel");
 const ejs = require("ejs");
@@ -10,6 +11,7 @@ app.set("port", 3000);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 app.use("/static", express.static(`${__dirname}/publics`));
 app.set("view engine", "ejs");
@@ -97,6 +99,17 @@ app.get("/users/:id", async (req, res) => {
             );
         });
 });
+
+
+app.get("/set-cookies", (req, res) => {
+    // res.setHeader("Set-Cookie", "name=test-cookie");
+    res.cookie("test-cookie", "test cookie value", { maxAge: 1000 * 60 * 60 * 24, httpOnly: true });
+    res.send("You've got the cookies");
+})
+
+app.get("/get-cookies", (req, res) => {
+
+})
 
 db_connect().then(
     () => {
