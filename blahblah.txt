@@ -1,0 +1,11 @@
+function -> return variables/object
+async function -> Promise 
+
+asyncFunction()
+.then(()=>{
+
+})
+.catch(err=>{
+    
+})
+console.log(gg)

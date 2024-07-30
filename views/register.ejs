@@ -1,0 +1,52 @@
+<%- include('partials/header') %>
+
+    <div class="container">
+
+        <form action="/users" method="post" id="register_form">
+            <h2>Sign Up</h2>
+            <div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+                <input type="text" class="form-control" name="username" id="username" required>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" name="email" id="email" required>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" name="password" id="password" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Register</button>
+        </form>
+
+    </div>
+    <script>
+        const register_form = document.getElementById("register_form");
+        register_form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            let username = document.getElementById("username").value;
+            let email = document.getElementById("email").value;
+            let password = document.getElementById("password").value;
+
+            try {
+                let res = await fetch("/users", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        username, email, password
+                    })
+                });
+                if (res.status == 201) {
+                    location.assign("/");
+                    return;
+                }
+                console.log(JSON.parse(res.body));
+            }
+            catch (err) {
+                console.log("We fucked up");
+                console.log(err)
+            }
+        })
+    </script>
+
+    <%- include('partials/footer') %>
