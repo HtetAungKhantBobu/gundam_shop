@@ -1,6 +1,6 @@
 <%- include('partials/header') %>
 
-    <div class="container">
+    <div class="container-fluid form-container">
 
         <form action="/users" method="post" id="register_form">
             <h2>Sign Up</h2>
@@ -19,7 +19,12 @@
                 <input type="password" class="form-control" name="password" id="password" required>
                 <div class="password error text-danger"></div>
             </div>
-            <button type="submit" class="btn btn-primary">Register</button>
+            <div class="mb-3">
+                <button type="submit" class="btn btn-primary">Register</button>
+                <div class="float-end text-small">
+                    Already have an account? <a href="/login">Login</a>
+                </div>
+            </div>
         </form>
 
     </div>

@@ -1,15 +1,21 @@
-.container {
+.form-container {
     position: relative;
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
+    min-height: 80svh;
+}
+
+.tip {
+    font-size: 0.9rem;
 }
 
 form {
-    box-shadow: 1px 1px gray;
-    margin: 1rem;
+    box-shadow: 2px 2px 5px gray;
     padding: 1rem;
-    min-width: 75%;
+    max-width: 30%;
+    min-width: 25%;
+    border-radius: 10px;
 }
 
 footer {

@@ -21,6 +21,7 @@ app.use("/static", express.static(`${__dirname}/publics`));
 app.set("view engine", "ejs");
 
 
+
 const createToken = function (id) {
     let payload = { id };
     let token = jwt.sign(payload, process.env.JWT_SECRET);
@@ -43,6 +44,21 @@ const handleErr = function (err) {
     return errors;
 }
 
+const authenticated = function (req, res, next) {
+    let token = req.cookies._token;
+    if (!token) {
+        res.redirect("/login");
+        return;
+    }
+    jwt.verify(token, process.env.JWT_SECRET, (err, token) => {
+        if (err) {
+            res.redirect("/login");
+            return;
+        }
+        next();
+
+    })
+}
 
 
 app.get("/", (req, res) => {
@@ -66,8 +82,6 @@ app.post("/login", async (req, res) => {
     let email = req.body.email;
     let password = req.body.password;
     let user = await User.findOne({ email: email });
-    console.log(user.email);
-    console.log(user.password + "|" + password);
     if (!user) {
         res.status(404).json({
             "errors": {
@@ -190,7 +204,7 @@ app.post("/test-token", (req, res) => {
 
 })
 
-app.get("/products", (req, res) => {
+app.get("/products", authenticated, (req, res) => {
     res.render("products", { page_title: "Products" });
 })
 
