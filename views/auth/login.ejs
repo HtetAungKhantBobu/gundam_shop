@@ -1,63 +1,63 @@
 <%- include('../partials/header', {css_files:["static/auth/auth.css"]}) %>
 
-    <div class="form-container ">
+<div class="form-container ">
 
-        <form id="login-form">
-            <h2>Sign In</h2>
+    <form id="login-form">
+        <h2>Sign In</h2>
 
-            <div class="mb-3">
-                <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" name="email" id="email" required>
-                <div class="email error text-danger"></div>
-            </div>
-            <div class="mb-3">
-                <label for="password" class="form-label">Password</label>
-                <input type="password" class="form-control" name="password" id="password" required>
-                <div class="password error text-danger"></div>
-            </div>
-            <div class="mb3">
-                <button type="submit" class="btn btn-primary">Sign In</button>
-                <span class="float-end tip">Don't have an account?<a href="/register">Register</a></span>
-            </div>
-        </form>
+        <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" name="email" id="email" required>
+            <div class="email error text-danger"></div>
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" class="form-control" name="password" id="password" required>
+            <div class="password error text-danger"></div>
+        </div>
+        <div class="mb3">
+            <button type="submit" class="btn btn-primary">Sign In</button>
+            <span class="float-end tip">Don't have an account?<a href="/register">Register</a></span>
+        </div>
+    </form>
 
-    </div>
-    <script>
-        const register_form = document.getElementById("login-form");
-        const emailError = document.querySelector(".email.error")
-        const passwordError = document.querySelector(".password.error")
-        register_form.addEventListener("submit", async (e) => {
-            e.preventDefault();
-            let email = document.getElementById("email").value;
-            let password = document.getElementById("password").value;
+</div>
+<script>
+    const register_form = document.getElementById("login-form");
+    const emailError = document.querySelector(".email.error")
+    const passwordError = document.querySelector(".password.error")
+    register_form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        let email = document.getElementById("email").value;
+        let password = document.getElementById("password").value;
 
-            try {
-                let res = await fetch("/login", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        email, password
-                    })
-                });
-                if (res.status == 200) {
-                    location.assign("/");
-                }
-                else {
-                    let data = await res.json();
-                    if (data.errors) {
-                        console.log(data.errors)
-                        let errors = data.errors;
-                        emailError.textContent = errors.email ? errors.email : ""
-                        passwordError.textContent = errors.password ? errors.password : ""
-                    }
-                }
-
+        try {
+            let res = await fetch("/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    email, password
+                })
+            });
+            if (res.status == 200) {
+                location.assign("/");
             }
-            catch (err) {
-                console.log("We fucked up");
-                console.log(err)
+            else {
+                let data = await res.json();
+                if (data.errors) {
+                    console.log(data.errors)
+                    let errors = data.errors;
+                    emailError.textContent = errors.email ? errors.email : ""
+                    passwordError.textContent = errors.password ? errors.password : ""
+                }
             }
-        })
-    </script>
 
-    <%- include('../partials/footer') %>
+        }
+        catch (err) {
+            console.log("We fucked up");
+            console.log(err)
+        }
+    })
+</script>
+
+<%- include('../partials/footer') %>
