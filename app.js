@@ -1,6 +1,10 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
+const jwt = require("jsonwebtoken");
+const dotenv = require("dotenv");
+const bcrypt = require("bcrypt");
+dotenv.config();
 const { db_connect } = require("./database/dbHelper");
 const { User } = require("./models/UserModel");
 const ejs = require("ejs");
@@ -16,6 +20,12 @@ app.use(cookieParser());
 app.use("/static", express.static(`${__dirname}/publics`));
 app.set("view engine", "ejs");
 
+
+const createToken = function (id) {
+    let payload = { id };
+    let token = jwt.sign(payload, process.env.JWT_SECRET);
+    return token;
+}
 
 const handleErr = function (err) {
     errors = {}
@@ -48,6 +58,40 @@ app.get("/register", (req, res) => {
     });
 })
 
+app.get("/login", (req, res) => {
+    res.render("login", { page_title: "Sign In" })
+})
+
+app.post("/login", async (req, res) => {
+    let email = req.body.email;
+    let password = req.body.password;
+    let user = await User.findOne({ email: email });
+    console.log(user.email);
+    console.log(user.password + "|" + password);
+    if (!user) {
+        res.status(404).json({
+            "errors": {
+                "email": "email not found"
+            }
+        });
+        return;
+    }
+    let check_password = await bcrypt.compare(password, user.password);
+    if (!check_password) {
+        res.status(400).json({
+            errors: {
+                "password": "wrong password"
+            }
+        });
+        return;
+    }
+    let token = createToken(user.id);
+    res.cookie("_token", token, { maxAge: 1000 * 60 * 60 * 24 });
+    res.status(200).json({
+        "data": "ok"
+    });
+})
+
 app.post("/users", async (req, res) => {
     console.log(req.body)
     let newUser = User({
@@ -58,6 +102,8 @@ app.post("/users", async (req, res) => {
     newUser.save()
         .then(
             () => {
+                let token = createToken(newUser.id);
+                res.cookie("_token", token, { maxAge: 1000 * 60 * 60 * 24 });
                 res.status(201).json({
                     id: newUser.id
                 });
@@ -104,11 +150,48 @@ app.get("/users/:id", async (req, res) => {
 app.get("/set-cookies", (req, res) => {
     // res.setHeader("Set-Cookie", "name=test-cookie");
     res.cookie("test-cookie", "test cookie value", { maxAge: 1000 * 60 * 60 * 24, httpOnly: true });
+    res.cookie("test-cookie-https", "test cookie value", { maxAge: 1000 * 60 * 60 * 24, httpOnly: false });
+
+    res.cookie("test-cookie-https-2", "test cookie value", { maxAge: 1000 * 60 * 60 * 24, httpOnly: false });
     res.send("You've got the cookies");
 })
 
 app.get("/get-cookies", (req, res) => {
+    let cookies = req.cookies;
+    console.log(cookies);
+    res.json({ cookies })
+})
 
+app.get("/get-token", (req, res) => {
+    let payload = {
+        id: 123
+    };
+    let token = jwt.sign(payload, process.env.JWT_SECRET);
+    res.send({ token });
+})
+
+app.post("/test-token", (req, res) => {
+    let test_token = req.body.token;
+
+    /*
+    try{
+    let payload = jwt.verify(...)
+}catch{
+    return error
+}
+    */
+    jwt.verify(test_token, process.env.JWT_SECRET, (err, payload) => {
+        if (err) {
+            res.send({ message: "you suck" });
+            return;
+        }
+        res.send({ payload });
+    })
+
+})
+
+app.get("/products", (req, res) => {
+    res.render("products", { page_title: "Products" });
 })
 
 db_connect().then(

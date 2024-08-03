@@ -1,11 +1,8 @@
-function -> return variables/object
-async function -> Promise 
 
-asyncFunction()
-.then(()=>{
+install dotenv
+require it 
+dotenv.config()
 
-})
-.catch(err=>{
-    
-})
-console.log(gg)
+process.env.[your .env variable name]
+???
+profit
