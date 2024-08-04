@@ -10,6 +10,24 @@ const { User } = require("./models/UserModel");
 const ejs = require("ejs");
 
 const app = express();
+
+const selection = [
+    {
+        img: "https://inwfile.com/s-da/8xd44e.jpg",
+        title: "Gundam rx 78 2",
+        description: "The classic that started it all."
+    },
+    {
+        img: "https://da.lnwfile.com/_/da/_raw/96/6g/4w.jpg",
+        title: "Zaku II",
+        description: "Iconic adversary with detailed parts."
+    },
+    {
+        img: "https://inwfile.com/s-da/re5d6o.jpg",
+        title: "Wing Gundam Zero Ew",
+        description: "Fan favorite with stunning wings."
+    }
+]
 app.set("port", 3000);
 
 
@@ -64,7 +82,8 @@ const authenticated = function (req, res, next) {
 app.get("/", (req, res) => {
     res.render("home", {
         welcomeString: "Hi Nice to see you",
-        page_title: "Home"
+        page_title: "Home",
+        selection: selection
     });
 });
 
