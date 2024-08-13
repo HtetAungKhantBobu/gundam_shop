@@ -78,61 +78,6 @@ nav {
     font-weight: 400;
 }
 
-.sections {
-    display: flex;
-    flex-direction: column;
-    /* background-color: red; */
-    /* background-color: var(--color-gray-1); */
-
-}
-
-.section {
-    background-color: transparent !important;
-    min-height: 85svh;
-    margin: 1rem 2rem;
-    padding: 1rem;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-.hero {
-    text-align: center;
-}
-
-.section>h2 {
-    text-align: center;
-}
-
-.section dt {
-    font-size: 2rem;
-}
-
-.section dd {
-    font-size: 1.5rem;
-    text-indent: 3rem;
-}
-
-.section dl {
-    padding: 1rem 10rem;
-}
-
-hr.divider {
-    height: 5px;
-    /* background: linear-gradient(90deg, rgba(90, 91, 109, 0.1) 0%, rgba(44, 82, 179, 1) 25%, rgba(44, 82, 179, 1) 75%, rgba(90, 91, 109, 0.1) 100%); */
-    border: 0;
-    background: linear-gradient(90deg, rgba(90, 91, 109, 0.1) 0%, rgb(251, 47, 56) 25%, rgb(251, 47, 56) 75%, rgba(90, 91, 109, 0.1) 100%);
-}
-
-.product-description {
-    display: flex;
-    justify-content: space-between;
-}
-
-.product-info-btns {
-    margin-top: -0.4rem;
-}
 
 footer {
     color: var(--color-gray-light-2);

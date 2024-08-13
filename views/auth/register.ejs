@@ -1,4 +1,4 @@
-<%- include('partials/header') %>
+<%- include('../partials/header', {css_files: ["static/auth/auth.css"]}) %>
 
     <div class="container-fluid form-container">
 
@@ -47,6 +47,7 @@
                         username, email, password
                     })
                 });
+                console.log(res.status);
                 if (res.status == 201) {
                     location.assign("/");
                 }
@@ -69,4 +70,4 @@
         })
     </script>
 
-    <%- include('partials/footer') %>
+    <%- include('../partials/footer') %>

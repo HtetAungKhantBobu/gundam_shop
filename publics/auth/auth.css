@@ -1,0 +1,33 @@
+.form-container {
+    position: relative;
+    min-height: 100svh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+form {
+    padding: 1rem;
+    box-shadow: 1px 1px 5px var(--color-gray);
+    border-radius: 10px;
+}
+
+form h2 {
+    text-align: center;
+}
+
+form .tip {
+    font-size: 0.9rem;
+}
+
+
+.form-container a {
+    color: var(--color-blue);
+    text-decoration: none;
+}
+
+.form-container a:hover,
+.form-container a:active,
+.form-container a:focus {
+    color: var(--color-red);
+}

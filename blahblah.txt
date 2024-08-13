@@ -1,8 +1,7 @@
+mysql
 
-install dotenv
-require it 
-dotenv.config()
+- roles table
+- users role_id ^
 
-process.env.[your .env variable name]
-???
-profit
+mongo
+users -> role

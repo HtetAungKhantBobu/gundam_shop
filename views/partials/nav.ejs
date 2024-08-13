@@ -33,10 +33,31 @@
                 <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                 <button class="btn btn-outline-success" type="submit">Search</button>
             </form> -->
-            <% if (!locals.user) { %>
-                <a id="login-btn" class="btn btn-outline-success" href="/login" role="button">Sign In</a>
+            <% if (page_title==="Products" ) { %>
+                <form class="d-flex" id="search_bar">
+                    <input class="form-control me-2" name="keyword" type="search" placeholder="Search"
+                        aria-label="Search">
+                    <button class="btn btn-outline-primary" type="submit">Search</button>
+                </form>
 
                 <% } %>
+                    <% if (!locals.user) { %>
+                        <a id="login-btn" class="btn btn-outline-success" href="/login" role="button">Sign In</a>
+
+                        <% } else { %>
+
+                            <% if (user.role==="admin" ) { %>
+
+                                <a class="btn btn-primary" href="/add-product" role="button">Add Product</a>
+                                <% } %>
+
+                                    Hi, <%= user.username %>
+                                        <% } %>
+
         </div>
     </div>
 </nav>
+<!-- 
+db.users.updateMany({}, {$set: {"role": "user"}});
+db.users.updateOne({"username": "Admin"}, {$set: {"role": "admin"}});
+-->

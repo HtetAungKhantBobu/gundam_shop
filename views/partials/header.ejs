@@ -21,9 +21,14 @@
         crossorigin="anonymous"></script>
 
     <link rel="stylesheet" href="/static/app.css">
-    <script>
-        var pt = '<%= page_title %>'
-    </script>
+    <% if (locals.css_files) { %>
+        <% for( let css_file of css_files ) { %>
+            <link rel="stylesheet" href="<%= css_file %>">
+            <% } %>
+                <% } %>
+                    <script>
+                        var pt = '<%= page_title %>'
+                    </script>
 </head>
 
 <body>
