@@ -35,9 +35,13 @@
             </form> -->
             <% if (page_title==="Products" ) { %>
                 <form class="d-flex" id="search_bar">
-                    <input class="form-control me-2" name="keyword" type="search" placeholder="Search"
-                        aria-label="Search">
-                    <button class="btn btn-outline-primary" type="submit">Search</button>
+                    <div class="input-group">
+                        <input class="form-control" name="keyword" type="search" placeholder="Search"
+                            aria-label="Search">
+                        <button class="btn btn-sm btn-outline-primary" type="submit">Search</button>
+                    </div>
+
+
                 </form>
 
                 <% } %>
@@ -48,11 +52,11 @@
 
                             <% if (user.role==="admin" ) { %>
 
-                                <a class="btn btn-primary" href="/add-product" role="button">Add Product</a>
-                                <% } %>
+                                <%- include('add-product-modal') %>
+                                    <% } %>
 
-                                    Hi, <%= user.username %>
-                                        <% } %>
+                                        Hi, <%= user.username %>
+                                            <% } %>
 
         </div>
     </div>
