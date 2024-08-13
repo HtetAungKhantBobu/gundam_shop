@@ -33,9 +33,11 @@
                             "Content-Type": "application/json"
                         }
                     })
-                    ress = response;
                     if (response.status === 200) {
-                        console.log(response)
+                        response.json().then(data => {
+                            console.log(typeof data)
+                            document.querySelector(".container").innerHTML = data.html
+                        }).catch(err => console.log(err))
 
                     }
                 } catch (err) {

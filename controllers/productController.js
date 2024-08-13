@@ -70,7 +70,21 @@ module.exports.searchProduct = async function (req, res) {
         return;
     }
     let products = await Product.find({ "name": { "$regex": keyword, "$options": "i" } });
-    res.status(200).json({
-        products
+    res.render("partials/selection-section", { selection: products }, (err, html) => {
+        if (err) {
+            res.status(500).json(
+                {
+                    "error": "something went wrong"
+                }
+            )
+            return;
+        }
+
+        res.status(200).json(
+            {
+                html
+            }
+        )
     })
+
 }

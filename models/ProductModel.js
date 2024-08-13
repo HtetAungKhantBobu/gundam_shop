@@ -32,6 +32,12 @@ const ProductSchema = new Schema({
     }
 });
 
+ProductSchema.set("toJSON", {
+    transform: (doc, ret) => {
+        ret.price = Number(doc.price.toString()).toFixed(2);
+    }
+})
+
 const Product = mongoose.model("products", ProductSchema);
 
 module.exports = Product;
