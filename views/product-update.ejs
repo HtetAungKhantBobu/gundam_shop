@@ -1,0 +1,68 @@
+<%- include('partials/header', {css_files: ['/static/home.css', '/static/product-details.css']}); %>
+<%- include('partials/nav') %>
+<div class="sections">
+    <div class="container">
+        <form id="update_product_form">
+            <h2>Update Product</h2>
+            <div class="mb-3">
+                <label for="name" class="form-label">Name</label>
+                <input type="text" class="form-control" name="name" id="update-name" value="<%= product.name %>">
+                <div class="name error text-danger"></div>
+            </div>
+            <div class="mb-3">
+                <label for="price" class="form-label">Price</label>
+                <input type="number" class="form-control" name="price" id="update-price" value="<%= product.price %>">
+                <div class="price error text-danger"></div>
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label">Description</label>
+                <input type="text" class="form-control" name="description" id="update-description"
+                    value="<%= product.description %>">
+                <div class="description error text-danger"></div>
+            </div>
+            <div class="mb-3">
+                <label for="img" class="form-label">Image URL</label>
+                <input type="url" class="form-control" name="img" id="update-img" value="<%= product.img %>">
+                <div class="img error text-danger"></div>
+            </div>
+            <div class="mb-3">
+                <button type="submit" class="btn btn-primary" id="submit_btn"
+                    data-id="<%= product._id %>">Update</button>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+<script>
+    const form = document.getElementById("update_product_form");
+
+    form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        let id = document.getElementById("submit_btn").attributes["data-id"].value;
+        let name = document.getElementById("update-name").value;
+        let price = document.getElementById("update-price").value;
+        let description = document.getElementById("update-description").value;
+        let img = document.getElementById("update-img").value;
+        try {
+            let res = await fetch(`/products/${id}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    name,
+                    price,
+                    description,
+                    img
+                })
+            })
+            if (res.status == 200) {
+                alert("Product Updated Successfully");
+                form.reset();
+            }
+        } catch (err) {
+            alert("Something Went Wrong");
+        }
+    })
+</script>
+<%- include('partials/footer') %>

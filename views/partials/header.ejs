@@ -22,13 +22,13 @@
 
     <link rel="stylesheet" href="/static/app.css">
     <% if (locals.css_files) { %>
-        <% for( let css_file of css_files ) { %>
-            <link rel="stylesheet" href="<%= css_file %>">
-            <% } %>
-                <% } %>
-                    <script>
-                        var pt = '<%= page_title %>'
-                    </script>
+    <% for( let css_file of css_files ) { %>
+    <link rel="stylesheet" href="<%= css_file %>">
+    <% } %>
+    <% } %>
+    <script>
+        var pt = '<%= page_title %>'
+    </script>
 </head>
 
 <body>

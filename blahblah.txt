@@ -1,7 +1,6 @@
-mysql
+products -> get
 
-- roles table
-- users role_id ^
+if user.role == admin show all products 
+if user.role == user show only isDeleted false products 
 
-mongo
-users -> role
+u

@@ -5,6 +5,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 const { db_connect } = require("./database/dbHelper");
 const { injectUser } = require("./middlewares/middleware");
+const { everyMinute } = require("./services/cronServices")
 const userRouter = require("./routers/userRouters");
 const authRouter = require("./routers/authRouters");
 const productRouter = require("./routers/productRouter");
@@ -12,23 +13,6 @@ const productRouter = require("./routers/productRouter");
 
 const app = express();
 
-const selection = [
-    {
-        img: "https://inwfile.com/s-da/8xd44e.jpg",
-        title: "Gundam rx 78 2",
-        description: "The classic that started it all."
-    },
-    {
-        img: "https://da.lnwfile.com/_/da/_raw/96/6g/4w.jpg",
-        title: "Zaku II",
-        description: "Iconic adversary with detailed parts."
-    },
-    {
-        img: "https://inwfile.com/s-da/re5d6o.jpg",
-        title: "Wing Gundam Zero Ew",
-        description: "Fan favorite with stunning wings."
-    }
-]
 
 app.set("port", 3000);
 app.set("view engine", "ejs");
@@ -46,10 +30,16 @@ app.get("/", (req, res) => {
         selection: selection
     });
 });
-
+//nginx
 app.use("/", userRouter);
 app.use("/", authRouter);
 app.use("/", productRouter);
+app.get("/run-job", (req, res) => {
+    everyMinute.fireOnTick();
+    res.status(200).json({
+        data: "running"
+    })
+})
 
 db_connect().then(
     () => {

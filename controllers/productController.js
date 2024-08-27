@@ -1,41 +1,9 @@
 const Product = require("../models/ProductModel");
-
-const sample_products = [
-    {
-        img: "https://inwfile.com/s-da/8xd44e.jpg",
-        title: "Gundam rx 78 2",
-        description: "The classic that started it all."
-    },
-    {
-        img: "https://da.lnwfile.com/_/da/_raw/96/6g/4w.jpg",
-        title: "Zaku II",
-        description: "Iconic adversary with detailed parts."
-    },
-    {
-        img: "https://inwfile.com/s-da/re5d6o.jpg",
-        title: "Wing Gundam Zero Ew",
-        description: "Fan favorite with stunning wings."
-    },
-    {
-        img: "https://inwfile.com/s-da/8xd44e.jpg",
-        title: "Gundam rx 78 2",
-        description: "The classic that started it all."
-    },
-    {
-        img: "https://da.lnwfile.com/_/da/_raw/96/6g/4w.jpg",
-        title: "Zaku II",
-        description: "Iconic adversary with detailed parts."
-    },
-    {
-        img: "https://inwfile.com/s-da/re5d6o.jpg",
-        title: "Wing Gundam Zero Ew",
-        description: "Fan favorite with stunning wings."
-    }
-]
+const { request, response } = require("express");
 
 
 module.exports.productsGet = async function (req, res) {
-    let products = await Product.find();
+    let products = await Product.find({ isDeleted: false });
     res.render("products", { page_title: "Products", products: products });
 }
 
@@ -86,5 +54,115 @@ module.exports.searchProduct = async function (req, res) {
             }
         )
     })
+    // return res.status(200).json({
+    //     products
+    // })
 
+}
+
+
+/**
+ * 
+ * @param {request} req 
+ * @param {response} res 
+ * @returns {null}
+ */
+module.exports.productDetails = async function (req, res) {
+    const id = req.params.id;
+    try {
+        const p = await Product.findById(id);
+        if (!p) {
+            res.status(404).json({
+                error: [
+                    { product: "Not Found" }
+                ]
+            })
+            return;
+        }
+        res.render('product-details', { product: p, page_title: p.name })
+    } catch (err) {
+        res.status(400).json({
+            error: [
+                {
+                    product: err.message
+                }
+            ]
+        })
+    }
+    // 
+
+}
+
+module.exports.updateProduct = async function (req, res) {
+    let { id } = req.params;
+    // let product = await Product.findById(id);
+
+    let update_data = req.body
+    let valid_fields = Object.keys(Product.schema.paths).filter(field => field != "_id" && field != "__v");
+
+    update_data = Object.fromEntries(
+        Object.entries(update_data).filter(f => valid_fields.includes(f[0]))
+    )
+    console.log(update_data)
+    let product = await Product.findByIdAndUpdate(id, update_data, { new: true, runValidators: true });
+    if (!product) {
+        res.status(404).json({
+            errors: [
+                { product: "Not Found" }
+            ]
+        })
+        return;
+    }
+
+    res.status(200).json({ product });
+}
+
+module.exports.updateProductGet = async function (req, res) {
+    let { id } = req.params
+    let product = await Product.findById(id);
+    if (!product) {
+        res.status(404).json({
+            error: "Not Found"
+        })
+        return;
+    }
+    res.render("product-update", { page_title: "Update Product", product })
+}
+
+module.exports.deleteProduct = async function (req, res) {
+    let { id } = req.params;
+    Product.findByIdAndDelete(id)
+        .then(() => {
+            res.status(200).json({
+                data: "Deleted Successfully"
+            })
+        }).catch(err => {
+            console.log(err);
+            res.status(500).json({
+                errors: [
+                    {
+                        product: "Something went wrong."
+                    }
+                ]
+            })
+        })
+}
+
+module.exports.softDeleteProduct = async function (req, res) {
+    let { id } = req.params;
+    try {
+        await Product.findByIdAndUpdate(id, { isDeleted: true })
+        res.status(200).json({
+            data: "Deleted Successfully"
+        })
+    } catch (err) {
+        console.log(err)
+        res.status(500).json({
+            errors: [
+                {
+                    product: "Cannot delete"
+                }
+            ]
+        })
+    }
 }

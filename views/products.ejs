@@ -20,13 +20,13 @@
 
         <script>
             const search_bar = document.getElementById("search_bar");
-            var ress = null;
             search_bar.addEventListener("submit", async (e) => {
                 e.preventDefault();
-                let keyword = encodeURIComponent(search_bar.keyword.value);
-                if (keyword === "") {
+                if (search_bar.keyword.value === "") {
+                    location.reload();
                     return;
                 }
+                let keyword = encodeURIComponent(search_bar.keyword.value);
                 try {
                     let response = await fetch(`/find-products?keyword=${keyword}`, {
                         method: "GET",
@@ -36,7 +36,7 @@
                     })
                     if (response.status === 200) {
                         response.json().then(data => {
-                            console.log(typeof data)
+
                             document.querySelector(".container").innerHTML = data.html
                         }).catch(err => console.log(err))
 

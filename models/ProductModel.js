@@ -29,6 +29,10 @@ const ProductSchema = new Schema({
     updatedAt: {
         type: Date,
         default: Date.now
+    },
+    isDeleted: {
+        type: Boolean,
+        default: false
     }
 });
 

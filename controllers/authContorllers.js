@@ -42,3 +42,9 @@ module.exports.loginPost = async function (req, res) {
         "data": "ok"
     });
 }
+
+
+module.exports.logout = function (req, res) {
+    res.clearCookie("_token");
+    res.redirect("/");
+}
