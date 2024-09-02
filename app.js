@@ -1,7 +1,9 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
+const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
+const bcrypt = require("bcrypt");
 dotenv.config();
 const { db_connect } = require("./database/dbHelper");
 const { injectUser } = require("./middlewares/middleware");
