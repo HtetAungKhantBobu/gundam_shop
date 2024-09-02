@@ -4,6 +4,7 @@ const cookieParser = require("cookie-parser");
 const dotenv = require("dotenv");
 dotenv.config();
 const { db_connect } = require("./database/dbHelper");
+const { get_top3 } = require("./helpers/helpers")
 const { injectUser } = require("./middlewares/middleware");
 const { everyMinute } = require("./services/cronServices")
 const userRouter = require("./routers/userRouters");
@@ -23,7 +24,8 @@ app.use(cookieParser());
 app.use("/static", express.static(`${__dirname}/publics`));
 app.use("*", injectUser);
 
-app.get("/", (req, res) => {
+app.get("/", async (req, res) => {
+    selection = await get_top3();
     res.render("home", {
         welcomeString: "Hi Nice to see you",
         page_title: "Home",

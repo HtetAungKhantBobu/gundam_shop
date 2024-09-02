@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+const Product = require("../models/ProductModel")
 module.exports.createToken = function (id) {
     let payload = { id };
     let token = jwt.sign(payload, process.env.JWT_SECRET);
@@ -19,4 +20,9 @@ module.exports.handleErr = function (err) {
         })
     }
     return errors;
+}
+
+module.exports.get_top3 = async function () {
+    const products = await Product.find().limit(3);
+    return products
 }
