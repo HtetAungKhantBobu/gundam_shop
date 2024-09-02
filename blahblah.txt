@@ -1,6 +1,6 @@
-products -> get
+loss 
+val_data -> 100
+correct -> 96
+incorrect -> 4
 
-if user.role == admin show all products 
-if user.role == user show only isDeleted false products 
-
-u
+loss -> 0.
