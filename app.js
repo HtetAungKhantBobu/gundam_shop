@@ -43,6 +43,15 @@ app.get("/run-job", (req, res) => {
     })
 })
 
+app.get("/set-cookie", (req, res) => {
+    res.setHeader("Set-Cookie", "test-cookie=test-data");
+    res.send("You've got cookied!");
+})
+
+app.get("/get-cookie", (req, res) => {
+    console.log(req);
+});
+
 db_connect().then(
     () => {
         app.listen(app.get("port"), () => {
