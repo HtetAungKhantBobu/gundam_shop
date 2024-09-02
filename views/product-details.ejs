@@ -1,0 +1,15 @@
+<%- include('partials/header', {css_files: ['static/home.css', '/static/product-details.css']}); %>
+<%- include('partials/nav') %>
+<div class="sections">
+    <div class="product-details">
+
+        <img src="<%= product.img %>">
+        <div class="product-details-text">
+            <h2><%= product.name %></h2>
+            <h3><%= product.price %>$</h3>
+            <p><%= product.description %></p>
+        </div>
+    </div>
+
+</div>
+<%- include('partials/footer') %>

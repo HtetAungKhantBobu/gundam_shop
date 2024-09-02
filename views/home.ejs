@@ -1,11 +1,35 @@
-<%- include('partials/header'); %>
+<%- include('partials/header', {css_files: ['static/home.css']}); %>
     <%- include('partials/nav') %>
-        <h1>This is Home</h1>
-        <h3>
-            <%= welcomeString %>
-        </h3>
+        <div class="sections">
+            <div class="section hero">
+                <h1 class="store-welcome">Welcome to <span class="brand-name">Side7</span></h1>
+                <h2 class="store-discription">Release your inner mecha!</h2>
+                <div>
+                    <button type="button" class="btn btn-lg btn-outline-primary">
+                        Browse
+                    </button>
+                    <button type="button" class="btn btn-lg btn-outline-primary">
+                        Contact Us
+                    </button>
 
-        <script>
+                </div>
+            </div>
 
-        </script>
+            <div class="section selection-carousel">
+                <h2>Our Top Picks</h2>
+                <hr class="divider">
+                <%- include('partials/selection-section') %>
+            </div>
+
+            <div class="section section-about-gundam">
+                <h2>About Gunpla</h2>
+                <hr class="divider">
+                <dl>
+                    <dt>What is Gunpla?</dt>
+                    <dd>Gunpla, short for Gundam plastic model, lets fans build and customize their favorite Gundam
+                        suits from Gundam Universe. Check out our [Beginner's Guide] to get started.</dd>
+                </dl>
+            </div>
+
+        </div>
         <%- include('partials/footer') %>

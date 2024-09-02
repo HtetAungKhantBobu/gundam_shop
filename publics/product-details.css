@@ -1,0 +1,10 @@
+.product-details {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.product-details img {
+    height: 90svh;
+    aspect-ratio: 1/1;
+}

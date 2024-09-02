@@ -1,11 +1,6 @@
-function -> return variables/object
-async function -> Promise 
+products -> get
 
-asyncFunction()
-.then(()=>{
+if user.role == admin show all products 
+if user.role == user show only isDeleted false products 
 
-})
-.catch(err=>{
-    
-})
-console.log(gg)
+u

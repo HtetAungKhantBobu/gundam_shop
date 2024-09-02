@@ -1,27 +1,38 @@
-<%- include('partials/header') %>
+<%- include('../partials/header', {css_files: ["static/auth/auth.css"]}) %>
 
-    <div class="container">
+    <div class="container-fluid form-container">
 
         <form action="/users" method="post" id="register_form">
             <h2>Sign Up</h2>
             <div class="mb-3">
                 <label for="username" class="form-label">Username</label>
                 <input type="text" class="form-control" name="username" id="username" required>
+                <div class="username error text-danger"></div>
             </div>
             <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
                 <input type="email" class="form-control" name="email" id="email" required>
+                <div class="email error text-danger"></div>
             </div>
             <div class="mb-3">
                 <label for="password" class="form-label">Password</label>
                 <input type="password" class="form-control" name="password" id="password" required>
+                <div class="password error text-danger"></div>
             </div>
-            <button type="submit" class="btn btn-primary">Register</button>
+            <div class="mb-3">
+                <button type="submit" class="btn btn-primary">Register</button>
+                <div class="float-end text-small">
+                    Already have an account? <a href="/login">Login</a>
+                </div>
+            </div>
         </form>
 
     </div>
     <script>
         const register_form = document.getElementById("register_form");
+        const usernameError = document.querySelector(".username.error");
+        const emailError = document.querySelector(".email.error")
+        const passwordError = document.querySelector(".password.error")
         register_form.addEventListener("submit", async (e) => {
             e.preventDefault();
             let username = document.getElementById("username").value;
@@ -36,11 +47,21 @@
                         username, email, password
                     })
                 });
+                console.log(res.status);
                 if (res.status == 201) {
                     location.assign("/");
-                    return;
                 }
-                console.log(JSON.parse(res.body));
+                else {
+                    let data = await res.json();
+                    if (data.errors) {
+                        console.log(data.errors)
+                        let errors = data.errors;
+                        usernameError.textContent = errors.username ? errors.username : "";
+                        emailError.textContent = errors.email ? errors.email : ""
+                        passwordError.textContent = errors.password ? errors.password : ""
+                    }
+                }
+
             }
             catch (err) {
                 console.log("We fucked up");
@@ -49,4 +70,4 @@
         })
     </script>
 
-    <%- include('partials/footer') %>
+    <%- include('../partials/footer') %>
